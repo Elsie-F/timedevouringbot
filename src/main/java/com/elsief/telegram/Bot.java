@@ -8,6 +8,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Bot extends TelegramLongPollingCommandBot {
     private final String botName;
     private final String botToken;
@@ -50,7 +53,7 @@ public class Bot extends TelegramLongPollingCommandBot {
     }
 
     public void devourTime(String chatId) {
-        sendMsg(chatId, "Time has passed");
+        sendMsg(chatId, "Time has passed " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     }
 
     private void sendMsg(String chatId, String message) {

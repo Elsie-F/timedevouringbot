@@ -14,6 +14,5 @@ public class CustomTimerTask implements Runnable {
     @Override
     public void run() {
         bot.devourTime(chatId);
-        System.out.println("time has passed");
     }
 }
