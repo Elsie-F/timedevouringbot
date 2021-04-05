@@ -11,16 +11,17 @@ public class TimerExecutor {
     private static final Logger log = Logger.getLogger(TimerExecutor.class);
     private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1); ///< Thread to execute operations
     private final Bot bot;
+    private final int intervalInSeconds;
 
-    public TimerExecutor(Bot bot) {
+    public TimerExecutor(Bot bot, int intervalInSeconds) {
         this.bot = bot;
+        this.intervalInSeconds = intervalInSeconds;
     }
 
     /**
      * Add a new CustomTimerTask to be executed
      *
      * @param chatId
-     * @param intervalInSeconds
      */
     public void startExecution(String chatId, int intervalInSeconds) {
         CustomTimerTask task = new CustomTimerTask(chatId, bot);

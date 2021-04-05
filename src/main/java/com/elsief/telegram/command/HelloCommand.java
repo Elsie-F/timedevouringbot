@@ -39,7 +39,7 @@ public class HelloCommand extends BotCommand {
 
         try {
             absSender.execute(answer);
-            executor.startExecution(chat.getId().toString(), 5);
+            executor.startExecution(chat.getId().toString());
         } catch (TelegramApiException e) {
             log.error("Error while sending message to user", e);
         }

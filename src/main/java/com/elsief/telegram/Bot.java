@@ -12,13 +12,11 @@ public class Bot extends TelegramLongPollingCommandBot {
     private final String botName;
     private final String botToken;
 
-    //concurrent мапа пользователей с экзекьюторами
-
-    public Bot(String botName, String botToken) {
+    public Bot(String botName, String botToken, int intervalInSeconds) {
         super();
         this.botName = botName;
         this.botToken = botToken;
-        TimerExecutor executor = new TimerExecutor(this);
+        TimerExecutor executor = new TimerExecutor(this, intervalInSeconds);
         register(new HelloCommand(executor));
         register(new GoodbyeCommand(executor));
     }
