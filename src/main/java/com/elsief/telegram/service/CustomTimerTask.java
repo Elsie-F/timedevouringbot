@@ -1,17 +1,19 @@
 package com.elsief.telegram.service;
 
-import lombok.Getter;
+import com.elsief.telegram.Bot;
 
 public class CustomTimerTask implements Runnable {
-    @Getter
-    private final String CHAT_ID;
+    private final String chatId;
+    private final Bot bot;
 
-    public CustomTimerTask(String chatId) {
-        CHAT_ID = chatId;
+    public CustomTimerTask(String chatId, Bot bot) {
+        this.chatId = chatId;
+        this.bot = bot;
     }
 
     @Override
     public void run() {
+        bot.devourTime(chatId);
         System.out.println("time has passed");
     }
 }

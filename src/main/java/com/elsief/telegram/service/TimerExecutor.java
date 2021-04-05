@@ -1,5 +1,6 @@
 package com.elsief.telegram.service;
 
+import com.elsief.telegram.Bot;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.Executors;
@@ -8,31 +9,11 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerExecutor {
     private static final Logger log = Logger.getLogger(TimerExecutor.class);
-    private static volatile TimerExecutor instance; ///< Instance
     private static final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1); ///< Thread to execute operations
+    private final Bot bot;
 
-    private TimerExecutor() {
-    }
-
-    /**
-     * Singleton pattern
-     *
-     * @return Instance of the executor
-     */
-    public static TimerExecutor getInstance() {
-        final TimerExecutor currentInstance;
-        if (instance == null) {
-            synchronized (TimerExecutor.class) {
-                if (instance == null) {
-                    instance = new TimerExecutor();
-                }
-                currentInstance = instance;
-            }
-        } else {
-            currentInstance = instance;
-        }
-
-        return currentInstance;
+    public TimerExecutor(Bot bot) {
+        this.bot = bot;
     }
 
     /**
@@ -42,7 +23,7 @@ public class TimerExecutor {
      * @param intervalInSeconds
      */
     public void startExecution(String chatId, int intervalInSeconds) {
-        CustomTimerTask task = new CustomTimerTask(chatId);
+        CustomTimerTask task = new CustomTimerTask(chatId, bot);
         executorService.scheduleAtFixedRate(task, intervalInSeconds, intervalInSeconds, TimeUnit.SECONDS);
     }
 

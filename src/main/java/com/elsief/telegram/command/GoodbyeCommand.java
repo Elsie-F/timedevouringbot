@@ -11,9 +11,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class GoodbyeCommand extends BotCommand {
     private static final Logger log = Logger.getLogger(GoodbyeCommand.class);
+    private final TimerExecutor executor;
 
-    public GoodbyeCommand() {
+    public GoodbyeCommand(TimerExecutor executor) {
         super("goodbye", "Say goodbye to this bot");
+        this.executor = executor;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class GoodbyeCommand extends BotCommand {
 
         try {
             absSender.execute(answer);
-            TimerExecutor.getInstance().stop();
+            executor.stop();
         } catch (TelegramApiException e) {
             log.error("Error while sending message to user", e);
         }

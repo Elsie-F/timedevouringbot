@@ -1,7 +1,6 @@
 package com.elsief.telegram.command;
 
 import com.elsief.telegram.service.TimerExecutor;
-import com.elsief.telegram.service.CustomTimerTask;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,9 +11,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class HelloCommand extends BotCommand {
     private static final Logger log = Logger.getLogger(HelloCommand.class);
+    private final TimerExecutor executor;
 
-    public HelloCommand() {
+    public HelloCommand(TimerExecutor executor) {
         super("hello", "Say hello to this bot");
+        this.executor = executor;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class HelloCommand extends BotCommand {
 
         try {
             absSender.execute(answer);
-            TimerExecutor.getInstance().startExecution(chat.getId().toString(), 5);
+            executor.startExecution(chat.getId().toString(), 5);
         } catch (TelegramApiException e) {
             log.error("Error while sending message to user", e);
         }

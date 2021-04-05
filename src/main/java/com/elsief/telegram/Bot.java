@@ -2,24 +2,25 @@ package com.elsief.telegram;
 
 import com.elsief.telegram.command.GoodbyeCommand;
 import com.elsief.telegram.command.HelloCommand;
-import com.elsief.telegram.service.CustomTimerTask;
+import com.elsief.telegram.service.TimerExecutor;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingCommandBot {
-    private final String BOT_NAME;
-    private final String BOT_TOKEN;
+    private final String botName;
+    private final String botToken;
 
     //concurrent мапа пользователей с экзекьюторами
 
     public Bot(String botName, String botToken) {
         super();
-        this.BOT_NAME = botName;
-        this.BOT_TOKEN = botToken;
-        register(new HelloCommand());
-        register(new GoodbyeCommand());
+        this.botName = botName;
+        this.botToken = botToken;
+        TimerExecutor executor = new TimerExecutor(this);
+        register(new HelloCommand(executor));
+        register(new GoodbyeCommand(executor));
     }
 
     /**
@@ -28,7 +29,7 @@ public class Bot extends TelegramLongPollingCommandBot {
      */
     @Override
     public String getBotUsername() {
-        return BOT_NAME;
+        return botName;
     }
 
     /**
@@ -37,7 +38,7 @@ public class Bot extends TelegramLongPollingCommandBot {
      */
     @Override
     public String getBotToken() {
-        return BOT_TOKEN;
+        return botToken;
     }
 
     /**
@@ -50,8 +51,8 @@ public class Bot extends TelegramLongPollingCommandBot {
         sendMsg(update.getMessage().getChatId().toString(), message);
     }
 
-    public void devourTime(CustomTimerTask customTimerTask) {
-        sendMsg(customTimerTask.getCHAT_ID(), "Time has passed");
+    public void devourTime(String chatId) {
+        sendMsg(chatId, "Time has passed");
     }
 
     private void sendMsg(String chatId, String message) {
