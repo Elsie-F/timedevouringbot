@@ -33,7 +33,7 @@ public class GoodbyeCommand extends BotCommand {
 
         try {
             absSender.execute(answer);
-            executor.stop();
+            executor.stop(chat.getId().toString());
         } catch (TelegramApiException e) {
             log.error("Error while sending message to user", e);
         }
