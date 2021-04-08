@@ -6,11 +6,14 @@ import com.elsief.telegram.service.TimerExecutor;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.helpCommand.HelpCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import static com.elsief.telegram.util.MessageUtil.generateReply;
 
 public class Bot extends TelegramLongPollingCommandBot {
     private final String botName;
@@ -50,8 +53,8 @@ public class Bot extends TelegramLongPollingCommandBot {
      */
     @Override
     public void processNonCommandUpdate(Update update) {
-        String message = update.getMessage().getText();
-        sendMsg(update.getMessage().getChatId().toString(), message);
+        Message message = update.getMessage();
+        sendMsg(update.getMessage().getChatId().toString(), generateReply(message));
     }
 
     public void devourTime(String chatId) {

@@ -9,6 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import static com.elsief.telegram.util.MessageUtil.getUserName;
+
 public class HelloCommand extends BotCommand {
     private static final Logger log = Logger.getLogger(HelloCommand.class);
     private final TimerExecutor executor;
@@ -21,12 +23,7 @@ public class HelloCommand extends BotCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
 
-        String userName = chat.getUserName();
-        if (userName == null || userName.isEmpty()) {
-            userName = user.getFirstName() + " " + user.getLastName();
-        }
-
-        StringBuilder messageTextBuilder = new StringBuilder("Привет, ").append(userName);
+        StringBuilder messageTextBuilder = new StringBuilder("Привет, ").append(getUserName(chat));
         if (arguments != null && arguments.length > 0) {
             messageTextBuilder.append("\n");
             messageTextBuilder.append("Thank you so much for your kind words:\n");
