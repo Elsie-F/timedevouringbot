@@ -2,6 +2,7 @@ package com.elsief.telegram;
 
 import com.elsief.telegram.command.GoodbyeCommand;
 import com.elsief.telegram.command.HelloCommand;
+import com.elsief.telegram.command.StartCommand;
 import com.elsief.telegram.service.TimerExecutor;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.helpCommand.HelpCommand;
@@ -27,6 +28,7 @@ public class Bot extends TelegramLongPollingCommandBot {
         register(new HelloCommand(executor));
         register(new GoodbyeCommand(executor));
         register(new HelpCommand());
+        register(new StartCommand(this));
     }
 
     /**
