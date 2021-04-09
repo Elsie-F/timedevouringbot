@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 public class TimerExecutor {
     private static final Logger log = Logger.getLogger(TimerExecutor.class);
     private static final Map<String, ScheduledExecutorService> executorServiceMap = new ConcurrentHashMap<>();
-    private static final Map<String, CustomTimerTask> taskMap = new ConcurrentHashMap<>();
     private final Bot bot;
     private final int intervalInSeconds;
 
@@ -31,15 +30,8 @@ public class TimerExecutor {
         if (executorService == null) {
             executorService = Executors.newScheduledThreadPool(1);
             executorServiceMap.put(chatId, executorService);
-        }
-        CustomTimerTask task = taskMap.get(chatId);
-        if (task == null) {
-            task = new CustomTimerTask(chatId, bot);
-            taskMap.put(chatId, task);
-        }
-        if (!task.isRunning()) {
+            CustomTimerTask task = new CustomTimerTask(chatId, bot);
             executorService.scheduleAtFixedRate(task, intervalInSeconds, intervalInSeconds, TimeUnit.SECONDS);
-            task.setRunning();
         }
     }
 
@@ -51,7 +43,6 @@ public class TimerExecutor {
         if (executorService != null) {
             executorService.shutdown();
             executorServiceMap.remove(chatId);
-            taskMap.remove(chatId);
             try {
                 executorService.awaitTermination(1, TimeUnit.MINUTES);
             } catch (InterruptedException ex) {
