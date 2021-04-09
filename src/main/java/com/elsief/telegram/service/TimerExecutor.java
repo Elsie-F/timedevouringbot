@@ -20,6 +20,10 @@ public class TimerExecutor {
         this.intervalInSeconds = intervalInSeconds;
     }
 
+    public boolean hasExecutorForChat(String chatId) {
+        return executorServiceMap.get(chatId) != null;
+    }
+
     /**
      * Add a new CustomTimerTask to be executed
      *

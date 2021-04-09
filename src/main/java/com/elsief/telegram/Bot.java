@@ -19,12 +19,13 @@ import static com.elsief.telegram.util.MessageUtil.generateReply;
 public class Bot extends TelegramLongPollingCommandBot {
     private final String botName;
     private final String botToken;
+    private final TimerExecutor executor;
 
     public Bot(String botName, String botToken, int intervalInSeconds) {
         super();
         this.botName = botName;
         this.botToken = botToken;
-        TimerExecutor executor = new TimerExecutor(this, intervalInSeconds);
+        executor = new TimerExecutor(this, intervalInSeconds);
         register(new HelloCommand(executor));
         register(new GoodbyeCommand(executor));
         register(new HelpCommand());
@@ -56,7 +57,10 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Override
     public void processNonCommandUpdate(Update update) {
         Message message = update.getMessage();
-        sendMsg(update.getMessage().getChatId().toString(), generateReply(message));
+        String chatId = update.getMessage().getChatId().toString();
+        if (this.executor.hasExecutorForChat(chatId)) {
+            sendMsg(chatId, generateReply(message));
+        }
     }
 
     public void devourTime(String chatId) {
