@@ -15,7 +15,7 @@ public class StartCommand extends BotCommand {
     private final ICommandRegistry commandRegistry;
 
     public StartCommand(ICommandRegistry commandRegistry) {
-        super("start", "Запуск бота");
+        super("start", "Запустить бота");
         this.commandRegistry = commandRegistry;
     }
 

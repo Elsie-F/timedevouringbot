@@ -16,18 +16,16 @@ public class GoodbyeCommand extends BotCommand {
     private final TimerExecutor executor;
 
     public GoodbyeCommand(TimerExecutor executor) {
-        super("goodbye", "Say goodbye to this bot");
+        super("goodbye", "Завершить диалог с ботом");
         this.executor = executor;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
 
-        StringBuilder messageTextBuilder = new StringBuilder("Пока, ").append(getUserName(chat));
-
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
-        answer.setText(messageTextBuilder.toString());
+        answer.setText("Пока, " + getUserName(chat));
 
         try {
             absSender.execute(answer);

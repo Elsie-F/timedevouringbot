@@ -16,23 +16,16 @@ public class HelloCommand extends BotCommand {
     private final TimerExecutor executor;
 
     public HelloCommand(TimerExecutor executor) {
-        super("hello", "Say hello to this bot");
+        super("hello", "Начать диалог с ботом");
         this.executor = executor;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
 
-        StringBuilder messageTextBuilder = new StringBuilder("Привет, ").append(getUserName(chat));
-        if (arguments != null && arguments.length > 0) {
-            messageTextBuilder.append("\n");
-            messageTextBuilder.append("Thank you so much for your kind words:\n");
-            messageTextBuilder.append(String.join(" ", arguments));
-        }
-
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
-        answer.setText(messageTextBuilder.toString());
+        answer.setText("Привет, " + getUserName(chat));
 
         try {
             absSender.execute(answer);

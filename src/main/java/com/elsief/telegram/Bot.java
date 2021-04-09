@@ -64,7 +64,7 @@ public class Bot extends TelegramLongPollingCommandBot {
     }
 
     public void devourTime(String chatId) {
-        sendMsg(chatId, "Time has passed " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        sendMsg(chatId, "Прошло время... Сейчас уже " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     }
 
     private void sendMsg(String chatId, String message) {
