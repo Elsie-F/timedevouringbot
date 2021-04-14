@@ -11,20 +11,20 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
+import static com.elsief.telegram.util.MessageUtil.generateDevourTimeMessage;
 import static com.elsief.telegram.util.MessageUtil.generateReply;
 
 public class Bot extends TelegramLongPollingCommandBot {
     private final String botName;
     private final String botToken;
     private final TimerExecutor executor;
+    private final int intervalInSeconds;
 
     public Bot(String botName, String botToken, int intervalInSeconds) {
         super();
         this.botName = botName;
         this.botToken = botToken;
+        this.intervalInSeconds = intervalInSeconds;
         executor = new TimerExecutor(this, intervalInSeconds);
         register(new HelloCommand(executor));
         register(new GoodbyeCommand(executor));
@@ -64,7 +64,7 @@ public class Bot extends TelegramLongPollingCommandBot {
     }
 
     public void devourTime(String chatId) {
-        sendMsg(chatId, "Прошло время... Сейчас уже " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        sendMsg(chatId, generateDevourTimeMessage(intervalInSeconds));
     }
 
     private void sendMsg(String chatId, String message) {
